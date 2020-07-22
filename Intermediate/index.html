@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Intermediate exercise</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container mx-auto mt-4 bg-warning text-center py-5 ">
+        <h1>AJAX--XML</h1>
+        <button type="button" class="btn btn-secondary my-4" onclick="loadDoc()">Get my songs</button>   
+        <table id="content" class="table"></table>
+    </div>
+    <script>
+        function loadDoc() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    myFunction(this);
+                }
+            };
+            xhttp.open("GET", "album.xml", true);
+            xhttp.send();
+        }
+        function myFunction(xml) {
+            var i;
+            var xmlDoc = xml.responseXML;
+            var table = 
+            '<thead class="thead-dark">' +
+              '<tr><th scope="col">Artist</th><th scope="col">Title</th><th scope="col">Genre</th></tr>' +
+            '</thead>';
+            var x = xmlDoc.getElementsByTagName("song");
+            for (i = 0; i < x.length; i++) {
+                table += 
+                "<tbody>" +
+                    "<tr>" +
+                        "<td>" +
+                            x[i].getElementsByTagName("artist")[0].childNodes[0].nodeValue +
+                        "</td>" +
+                        "<td>" +
+                            x[i].getElementsByTagName("title")[0].childNodes[0].nodeValue +
+                        "</td>" +
+                        "<td>" +
+                            x[i].getElementsByTagName("genre")[0].childNodes[0].nodeValue +
+                        "</td>" +
+                    "</tr>" +
+                "</tbody>";
+           }
+           document.getElementById("content").innerHTML = table;
+        }
+    </script>
+</body>
+</html>
